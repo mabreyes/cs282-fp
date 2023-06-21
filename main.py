@@ -1,3 +1,4 @@
+# python main.py --data-directory Data --exp_directory DataExp
 from pathlib import Path
 
 import click

@@ -1,10 +1,16 @@
 from pathlib import Path
 
+# import torch
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
 from segdataset import SegmentationDataset
 
+# def collate_fn(batch):
+#   return {
+#       'pixel_values': torch.stack([x['pixel_values'] for x in batch]),
+#       'labels': torch.tensor([x['labels'] for x in batch])
+# }
 
 def get_dataloader_sep_folder(data_dir: str,
                               image_folder: str = 'Image',
@@ -52,7 +58,9 @@ def get_dataloader_sep_folder(data_dir: str,
         x: DataLoader(image_datasets[x],
                       batch_size=batch_size,
                       shuffle=True,
-                      num_workers=8)
+                      num_workers=8,
+                    #   collate_fn=collate_fn
+                      )
         for x in ['Train', 'Test']
     }
     return dataloaders
@@ -93,7 +101,9 @@ def get_dataloader_single_folder(data_dir: str,
         x: DataLoader(image_datasets[x],
                       batch_size=batch_size,
                       shuffle=True,
-                      num_workers=8)
+                      num_workers=8,
+                    #   collate_fn=collate_fn
+                      )
         for x in ['Train', 'Test']
     }
     return dataloaders
