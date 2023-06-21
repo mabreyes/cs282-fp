@@ -12,11 +12,14 @@ from segdataset import SegmentationDataset
 #       'labels': torch.tensor([x['labels'] for x in batch])
 # }
 
-def get_dataloader_sep_folder(data_dir: str,
-                              image_folder: str = 'Image',
-                              mask_folder: str = 'Mask',
-                              batch_size: int = 4):
-    """ Create Train and Test dataloaders from two
+
+def get_dataloader_sep_folder(
+    data_dir: str,
+    image_folder: str = "Image",
+    mask_folder: str = "Mask",
+    batch_size: int = 4,
+):
+    """Create Train and Test dataloaders from two
         separate Train and Test folders.
         The directory structure should be as follows.
         data_dir
@@ -48,29 +51,34 @@ def get_dataloader_sep_folder(data_dir: str,
     data_transforms = transforms.Compose([transforms.ToTensor()])
 
     image_datasets = {
-        x: SegmentationDataset(root=Path(data_dir) / x,
-                               transforms=data_transforms,
-                               image_folder=image_folder,
-                               mask_folder=mask_folder)
-        for x in ['Train', 'Test']
+        x: SegmentationDataset(
+            root=Path(data_dir) / x,
+            transforms=data_transforms,
+            image_folder=image_folder,
+            mask_folder=mask_folder,
+        )
+        for x in ["Train", "Test"]
     }
     dataloaders = {
-        x: DataLoader(image_datasets[x],
-                      batch_size=batch_size,
-                      shuffle=True,
-                      num_workers=8,
-                    #   collate_fn=collate_fn
-                      )
-        for x in ['Train', 'Test']
+        x: DataLoader(
+            image_datasets[x],
+            batch_size=batch_size,
+            shuffle=True,
+            num_workers=8,
+            #   collate_fn=collate_fn
+        )
+        for x in ["Train", "Test"]
     }
     return dataloaders
 
 
-def get_dataloader_single_folder(data_dir: str,
-                                 image_folder: str = 'Images',
-                                 mask_folder: str = 'Masks',
-                                 fraction: float = 0.2,
-                                 batch_size: int = 4):
+def get_dataloader_single_folder(
+    data_dir: str,
+    image_folder: str = "Images",
+    mask_folder: str = "Masks",
+    fraction: float = 0.2,
+    batch_size: int = 4,
+):
     """Create train and test dataloader from a single directory containing
     the image and mask folders.
 
@@ -88,22 +96,25 @@ def get_dataloader_single_folder(data_dir: str,
     data_transforms = transforms.Compose([transforms.ToTensor()])
 
     image_datasets = {
-        x: SegmentationDataset(data_dir,
-                               image_folder=image_folder,
-                               mask_folder=mask_folder,
-                               seed=100,
-                               fraction=fraction,
-                               subset=x,
-                               transforms=data_transforms)
-        for x in ['Train', 'Test']
+        x: SegmentationDataset(
+            data_dir,
+            image_folder=image_folder,
+            mask_folder=mask_folder,
+            seed=100,
+            fraction=fraction,
+            subset=x,
+            transforms=data_transforms,
+        )
+        for x in ["Train", "Test"]
     }
     dataloaders = {
-        x: DataLoader(image_datasets[x],
-                      batch_size=batch_size,
-                      shuffle=True,
-                      num_workers=8,
-                    #   collate_fn=collate_fn
-                      )
-        for x in ['Train', 'Test']
+        x: DataLoader(
+            image_datasets[x],
+            batch_size=batch_size,
+            shuffle=True,
+            num_workers=8,
+            #   collate_fn=collate_fn
+        )
+        for x in ["Train", "Test"]
     }
     return dataloaders
