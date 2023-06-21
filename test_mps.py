@@ -1,4 +1,6 @@
+# https://towardsdatascience.com/installing-pytorch-on-apple-m1-chip-with-gpu-acceleration-3351dc44d67c
 import torch 
+import math 
 
 dtype = torch.float
 device = torch.device("mps")
